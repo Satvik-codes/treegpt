@@ -10,6 +10,9 @@ import { loadEnv } from "vite";
 const env = loadEnv("development", process.cwd(), "");
 
 export default defineConfig({
+  // Disables the Cloudflare plugin when building for Vercel.
+  // This allows TanStack Start to use its Vercel-compatible build engine.
+  cloudflare: process.env.VERCEL ? false : undefined,
   vite: {
     define: {
       'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL),

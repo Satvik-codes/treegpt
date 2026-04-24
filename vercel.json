@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "framework": "vite",
+  "buildCommand": "NITRO_PRESET=vercel npm run build",
+  "outputDirectory": ".vercel/output",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
