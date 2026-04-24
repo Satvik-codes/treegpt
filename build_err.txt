@@ -1,0 +1,62 @@
+[36mvite v7.3.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 2478 modules transformed.
+
+Warning: Route file "C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/src/routes/__envcheck.tsx" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "C:\Users\cools\Downloads\branch-path-ai-main\branch-path-ai-main\src\routes\-__envcheck.tsx" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
+Warning: Route file "C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/src/routes/__envcheck.tsx" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "C:\Users\cools\Downloads\branch-path-ai-main\branch-path-ai-main\src\routes\-__envcheck.tsx" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
+Warning: Route file "C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/src/routes/__envcheck.tsx" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "C:\Users\cools\Downloads\branch-path-ai-main\branch-path-ai-main\src\routes\-__envcheck.tsx" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
+Found 1 warning while optimizing generated CSS:
+
+[2m│   initial-value: 0;[22m
+[2m│ }[22m
+[2m│[22m @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+[2m┆[22m        [33m[2m^--[22m @import rules must precede all rules aside from @charset and @layer statements[39m
+[2m┆[22m
+[2m│ :root {[22m
+[2m│   --radius: 0.5rem;[22m
+
+[31m✗[39m Build failed in 5.37s
+[31merror during build:
+[31msrc/routes/app.tsx?tsr-split=component (12:16): "PanelGroup" is not exported by "node_modules/react-resizable-panels/dist/react-resizable-panels.js", imported by "src/routes/app.tsx?tsr-split=component".[31m
+file: [36mC:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/src/routes/app.tsx?tsr-split=component:12:16[31m
+[33m
+10: import { Loader2 } from 'lucide-react';
+11: import SiteShell from '@/components/layout/SiteShell';
+12: // @ts-ignore - react-resizable-panels types missing in this environment
+                    ^
+13: import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+[31m
+    at getRollupError (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/parseAst.js:406:41)
+    at error (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/parseAst.js:402:42)
+    at Module.error (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:17380:16)
+    at Module.traceVariable (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:17813:29)
+    at ModuleScope.findVariable (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:15403:39)
+    at FunctionScope.findVariable (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at Identifier.bind (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:5450:40)
+    at CallExpression.bind (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:2828:28)
+    at CallExpression.bind (file:///C:/Users/cools/Downloads/branch-path-ai-main/branch-path-ai-main/node_modules/rollup/dist/es/shared/node-entry.js:12512:15)[39m

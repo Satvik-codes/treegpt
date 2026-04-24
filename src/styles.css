@@ -1,0 +1,218 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-node-active: var(--node-active);
+  --color-node-failed: var(--node-failed);
+  --color-node-success: var(--node-success);
+  --color-node-inactive: var(--node-inactive);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* =============================
+     DESIGN.md tokens ("Technical Monolith")
+     ============================= */
+  /* Brand Tokens */
+  --forest: #0a0e08;
+  --bark: #111a0d;
+  --moss: #1a2714;
+  --leaf: #2d4a1e;
+  --amber: #c8913a;
+  --amber-bright: #e8a84a;
+  --amber-dim: #7a5520;
+  --sage: #6b8f5a;
+  --sage-bright: #8db57a;
+  --cream: #f0ead8;
+  --cream-dim: #b8b09a;
+  --glow: rgba(200, 145, 58, 0.15);
+  --glow-strong: rgba(200, 145, 58, 0.35);
+
+  /* Semantic UI Tokens Mapping to Brand */
+  --surface: var(--forest);
+  --surface_container_low: var(--bark);
+  --surface_container: rgba(17, 26, 13, 0.6); /* Transparent back */
+  --surface_container_high: var(--bark);
+  --surface_container_highest: var(--moss);
+  --surface_container_lowest: #000000;
+  --surface_variant: var(--bark);
+  --surface_bright: var(--moss);
+
+  --on_surface: var(--cream);
+  --on_surface_muted: var(--cream-dim);
+
+  --primary: var(--amber);
+  --primary_container: var(--amber-dim);
+  --on_primary: var(--forest);
+
+  --error: #FFB4AB;
+  --outline_variant: rgba(200, 145, 58, 0.25);
+
+  /* CTA gradient 135deg: primary_container -> primary */
+  --cta-gradient: linear-gradient(135deg, var(--primary_container), var(--primary));
+
+  /* "Glass & Gradient" */
+  --glass-fill: rgba(17, 26, 13, 0.85); /* Dark greenish-gray */
+  --glass-blur: 16px;
+
+  /* Ambient shadow */
+  --ambient-shadow: 0 32px 64px rgba(10, 14, 8, 0.80);
+
+  /* =============================
+     shadcn/tailwind semantic mapping
+     ============================= */
+  --background: var(--surface);
+  --foreground: var(--on_surface);
+
+  --card: var(--surface_container);
+  --card-foreground: var(--on_surface);
+
+  --popover: var(--surface_container_high);
+  --popover-foreground: var(--on_surface);
+
+  --primary-foreground: var(--on_primary);
+
+  --secondary: var(--surface_container_highest);
+  --secondary-foreground: var(--on_surface);
+
+  --muted: var(--surface_container);
+  --muted-foreground: var(--on_surface_muted);
+
+  --accent: var(--surface_bright);
+  --accent-foreground: var(--on_surface);
+
+  --destructive: var(--error);
+  --destructive-foreground: #2b0b09;
+
+  /* "Ghost border" fallback */
+  --border: rgba(67, 70, 86, 0.18);
+  --input: var(--surface_container_lowest);
+  --ring: var(--primary);
+
+  --chart-1: var(--primary);
+  --chart-2: #7ae3b1;
+  --chart-3: var(--error);
+  --chart-4: #ffd38b;
+  --chart-5: #caa7ff;
+
+  /* Sidebar semantics */
+  --sidebar: var(--surface_container_low);
+  --sidebar-foreground: var(--on_surface);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--on_primary);
+  --sidebar-accent: rgba(229, 226, 225, 0.04);
+  --sidebar-accent-foreground: var(--on_surface);
+  --sidebar-border: transparent; /* No-line rule */
+  --sidebar-ring: var(--primary);
+
+  /* Node status */
+  --node-active: var(--primary);
+  --node-failed: var(--error);
+  --node-success: #7ae3b1;
+  --node-inactive: rgba(229, 226, 225, 0.28);
+
+  /* Hover surface helper */
+  --surface-hover: var(--surface_bright);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* =============================
+   React Flow custom styles (match DESIGN.md)
+   - No hard 1px borders in primary UI
+   - Use tonal shifts + glass for floating controls
+   ============================= */
+.react-flow__background {
+  background-color: var(--surface) !important;
+}
+
+/* Floating UI should feel like glass */
+.react-flow__minimap,
+.react-flow__controls {
+  background: var(--glass-fill) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 0 !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--ambient-shadow);
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background-color: transparent !important;
+  border: 0 !important;
+  color: var(--on_surface) !important;
+  fill: var(--on_surface) !important;
+}
+
+.react-flow__controls-button:hover {
+  background-color: rgba(229, 226, 225, 0.06) !important;
+}
+
+.react-flow__edge-path {
+  stroke: rgba(229, 226, 225, 0.28) !important;
+  stroke-width: 2 !important;
+}
