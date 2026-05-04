@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, TreePine, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -12,12 +12,6 @@ export default function AuthForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  // Debug rendering
-  const renderCount = React.useRef(0);
-  renderCount.current += 1;
-  console.log(`AuthForm Render: ${renderCount.current}`);
-
   const [status, setStatus] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -93,10 +87,25 @@ export default function AuthForm() {
 
   return (
     <div className="login">
-      
-
-      {/* Go back button explicitly placed at the window edge */}
-
+      {/* Back to Home — absolutely positioned so it's always visible */}
+      <Link
+        to="/"
+        style={{
+          position: 'absolute',
+          top: '20px',
+          left: '24px',
+          zIndex: 10,
+          display: 'inline-flex',
+          alignItems: 'center',
+          fontSize: '13px',
+          color: 'var(--login-gold)',
+          textDecoration: 'none',
+          opacity: 0.85,
+          transition: 'opacity 0.2s',
+        }}
+      >
+        ← Back to Home
+      </Link>
 
       <div className="loginCard">
         <aside className="left">
@@ -109,23 +118,6 @@ export default function AuthForm() {
               <div className="brandTag">Branch your thinking.</div>
             </div>
           </div>
-
-          <Link 
-            to="/" 
-            className="back-to-home"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              fontSize: '13px',
-              color: 'var(--login-gold)',
-              textDecoration: 'none',
-              marginTop: '24px',
-              opacity: 0.8,
-              transition: 'opacity 0.2s'
-            }}
-          >
-            ← Back to Home
-          </Link>
 
           <div className="welcome">
             <h2>Welcome back!</h2>

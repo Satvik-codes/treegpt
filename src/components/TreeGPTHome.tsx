@@ -118,34 +118,10 @@ export default function TreeGPTHome() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      if (heroContentRef.current) {
-        gsap.fromTo(
-          heroContentRef.current,
-          { filter: 'blur(6px)', opacity: 0.001 },
-          {
-            filter: 'blur(0px)',
-            opacity: 1,
-            duration: 1.0,
-            ease: 'power2.out',
-          }
-        );
-      }
+      // Hero content animation is handled by framer-motion — do NOT duplicate with GSAP.
 
       if (treeVizRef.current) {
-        gsap.fromTo(
-          treeVizRef.current,
-          { opacity: 0, x: 24, rotate: -0.6 },
-          {
-            opacity: 1,
-            x: 0,
-            rotate: 0,
-            duration: 1.1,
-            ease: 'power3.out',
-            delay: 0.15,
-          }
-        );
-
-        // Slow ambient float.
+        // Slow ambient float only (no opacity/transform entry — framer handles that).
         gsap.to(treeVizRef.current, {
           y: -10,
           duration: 4.8,
@@ -299,7 +275,7 @@ export default function TreeGPTHome() {
           transition={heroIn.transition}
         >
           <motion.p
-            className="eyebrow anim-1"
+            className="eyebrow"
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? undefined : { duration: 0.5, delay: 0.05, ease: 'easeOut' }}
@@ -307,7 +283,7 @@ export default function TreeGPTHome() {
             A new way to think with AI
           </motion.p>
           <motion.h1
-            className="hero-headline anim-2"
+            className="hero-headline"
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? undefined : { duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
@@ -319,7 +295,7 @@ export default function TreeGPTHome() {
             Not Lines.
           </motion.h1>
           <motion.p
-            className="hero-sub anim-3"
+            className="hero-sub"
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? undefined : { duration: 0.65, delay: 0.22, ease: 'easeOut' }}
@@ -328,7 +304,7 @@ export default function TreeGPTHome() {
             never lose context again.
           </motion.p>
           <motion.div
-            className="hero-actions anim-4"
+            className="hero-actions"
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? undefined : { duration: 0.6, delay: 0.32, ease: 'easeOut' }}
@@ -346,9 +322,15 @@ export default function TreeGPTHome() {
           </motion.div>
         </motion.div>
 
-  <div className="tree-viz" ref={treeVizRef}>
+  <motion.div
+          className="tree-viz"
+          ref={treeVizRef}
+          initial={prefersReducedMotion ? undefined : { opacity: 0, x: 24 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
+          transition={prefersReducedMotion ? undefined : { duration: 1.1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        >
           <TreeConceptImage />
-        </div>
+        </motion.div>
       </section>
 
       {/* PROBLEM */}
