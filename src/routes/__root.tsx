@@ -1,5 +1,4 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { Toaster } from '@/components/ui/sonner';
 
 function EnvDebugScript() {
   // Note: This runs for SSR and in the browser. We only *compute* values on the server.
@@ -40,7 +39,7 @@ function safeHost(url: string): string | null {
   }
 }
 
-import appCss from "../styles.css?url";
+import "../styles.css";
 
 function NotFoundComponent() {
   return (
@@ -80,12 +79,7 @@ export const Route = createRootRoute({
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
     ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
+    links: [],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -101,7 +95,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
   <EnvDebugScript />
         {children}
-        <Toaster />
         <Scripts />
       </body>
     </html>

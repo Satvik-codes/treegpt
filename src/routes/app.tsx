@@ -6,7 +6,6 @@ import { ClientOnly } from '@tanstack/react-router';
 import Sidebar from '@/components/Sidebar';
 import GraphCanvas from '@/components/GraphCanvas';
 import NodeChatPanel from '@/components/NodeChatPanel';
-import { Toaster } from '@/components/ui/sonner';
 import { Loader2 } from 'lucide-react';
 import SiteShell from '@/components/layout/SiteShell';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle, usePanelRef } from 'react-resizable-panels';
@@ -146,7 +145,6 @@ function AuthGate() {
           <NodeChatPanel />
         </Panel>
       </PanelGroup>
-      <Toaster />
     </SiteShell>
   );
 }
