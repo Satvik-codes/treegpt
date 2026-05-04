@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, TreePine, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
 import { useNavigate, Link } from '@tanstack/react-router';
 import TreeConceptImage from '@/components/TreeConceptImage';
 
@@ -55,12 +54,12 @@ export default function AuthForm() {
           options: { emailRedirectTo: window.location.origin + '/app' },
         });
         if (error) throw error;
-        toast.success('Account created! Check your email (if confirmation is enabled), then sign in.');
+        console.log('Account created! Check your email (if confirmation is enabled), then sign in.');
       }
     } catch (e: any) {
   const msg = e?.message ? String(e.message) : 'Authentication failed.';
   setStatus(msg);
-  toast.error(msg);
+  console.error(msg);
     } finally {
       setLoading(false);
     }
@@ -69,7 +68,7 @@ export default function AuthForm() {
   async function handleForgotPassword() {
     if (!email) {
   setStatus('Enter your email first.');
-  toast.error('Enter your email first.');
+  console.error('Enter your email first.');
       return;
     }
 
@@ -78,11 +77,11 @@ export default function AuthForm() {
         redirectTo: window.location.origin + '/login',
       });
       if (error) throw error;
-      toast.success('Password reset email sent.');
+      console.log('Password reset email sent.');
     } catch (e: any) {
   const msg = e?.message ? String(e.message) : 'Password reset failed.';
   setStatus(msg);
-  toast.error(msg);
+  console.error(msg);
     }
   }
 

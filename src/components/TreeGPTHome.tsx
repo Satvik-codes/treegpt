@@ -289,15 +289,6 @@ export default function TreeGPTHome() {
 
       {/* HERO */}
   <section className="hero" ref={heroRef}>
-        <div className="hero-bg">
-          <svg width="100%" height="100%" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
-            <radialGradient id="heroGrad" cx="70%" cy="50%" r="60%">
-              <stop offset="0%" stopColor="#c8913a" stopOpacity="0.06" />
-              <stop offset="100%" stopColor="#c8913a" stopOpacity="0" />
-            </radialGradient>
-            <rect width="1400" height="900" fill="url(#heroGrad)" />
-          </svg>
-        </div>
 
         <motion.div
           className="hero-content"
