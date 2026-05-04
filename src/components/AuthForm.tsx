@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { useNavigate, Link } from '@tanstack/react-router';
 import TreeConceptImage from '@/components/TreeConceptImage';
 
-import styles from '@/styles/login.css?inline';
+import '@/styles/login.css';
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -88,35 +88,10 @@ export default function AuthForm() {
 
   return (
     <div className="login">
-      <style dangerouslySetInnerHTML={{ __html: styles }} />
+      
 
       {/* Go back button explicitly placed at the window edge */}
-      <Link 
-        to="/" 
-        style={{ 
-          position: 'fixed', 
-          top: '24px', 
-          left: '24px', 
-          zIndex: 50,
-          display: 'inline-flex',
-          alignItems: 'center',
-          fontSize: '14px',
-          fontWeight: 500,
-          color: 'var(--amber)',
-          textDecoration: 'none',
-          fontFamily: "'IBM Plex Mono', monospace",
-          padding: '8px 16px',
-          background: 'rgba(10, 14, 8, 0.7)',
-          border: '1px solid rgba(200, 145, 58, 0.3)',
-          borderRadius: '8px',
-          backdropFilter: 'blur(10px)',
-          gap: '8px',
-          transition: 'all 0.2s ease-in-out'
-        }}
-        className="hover:bg-[#c8913a]/10 hover:border-[#c8913a]"
-      >
-        ← Back to Home
-      </Link>
+
 
       <div className="loginCard">
         <aside className="left">
@@ -130,6 +105,23 @@ export default function AuthForm() {
             </div>
           </div>
 
+          <Link 
+            to="/" 
+            className="back-to-home"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              fontSize: '13px',
+              color: 'var(--login-gold)',
+              textDecoration: 'none',
+              marginTop: '24px',
+              opacity: 0.8,
+              transition: 'opacity 0.2s'
+            }}
+          >
+            ← Back to Home
+          </Link>
+
           <div className="welcome">
             <h2>Welcome back!</h2>
             <p>You can sign in to access your existing account.</p>
@@ -139,7 +131,9 @@ export default function AuthForm() {
           <div className="sparkle s2" aria-hidden="true" />
           <div className="sparkle s3" aria-hidden="true" />
 
+          <div className="treeArt">
             <TreeConceptImage />
+          </div>
         </aside>
 
         <main className="right">
