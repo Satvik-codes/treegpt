@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "dev:wrangler": "npm run build && wrangler dev",
-    "dev:full": "npm run build && npx wrangler dev --config dist/server/wrangler.json"
+    "dev:full": "npm run build && npx wrangler dev --config dist/server/wrangler.json",
+    "build:pages": "npm run build"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
