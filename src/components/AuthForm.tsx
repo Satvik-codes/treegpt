@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, TreePine, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,9 +9,15 @@ import '@/styles/login.css';
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const emailRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  
+  // Debug rendering
+  const renderCount = React.useRef(0);
+  renderCount.current += 1;
+  console.log(`AuthForm Render: ${renderCount.current}`);
+
   const [status, setStatus] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +27,9 @@ export default function AuthForm() {
     e.preventDefault();
     setLoading(true);
   setStatus(null);
+
+    const email = emailRef.current?.value || '';
+    const password = passwordRef.current?.value || '';
 
     try {
       if (isLogin) {
@@ -66,6 +75,7 @@ export default function AuthForm() {
   }
 
   async function handleForgotPassword() {
+    const email = emailRef.current?.value || '';
     if (!email) {
   setStatus('Enter your email first.');
   console.error('Enter your email first.');
@@ -161,10 +171,10 @@ export default function AuthForm() {
               <div className="field">
                 <User className="icon" aria-hidden="true" />
                 <input
+                  ref={emailRef}
                   className="input"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  defaultValue=""
                   placeholder="Username or email"
                   autoComplete="email"
                   required
@@ -175,10 +185,10 @@ export default function AuthForm() {
               <div className="field">
                 <Lock className="icon" aria-hidden="true" />
                 <input
+                  ref={passwordRef}
                   className="input"
                   type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  defaultValue=""
                   placeholder="Password"
                   autoComplete={isLogin ? 'current-password' : 'new-password'}
                   required
