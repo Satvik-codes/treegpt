@@ -9,8 +9,8 @@ import '@/styles/login.css';
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
   // Debug rendering
@@ -27,9 +27,6 @@ export default function AuthForm() {
     e.preventDefault();
     setLoading(true);
   setStatus(null);
-
-    const email = emailRef.current?.value || '';
-    const password = passwordRef.current?.value || '';
 
     try {
       if (isLogin) {
@@ -75,7 +72,6 @@ export default function AuthForm() {
   }
 
   async function handleForgotPassword() {
-    const email = emailRef.current?.value || '';
     if (!email) {
   setStatus('Enter your email first.');
   console.error('Enter your email first.');
@@ -171,10 +167,10 @@ export default function AuthForm() {
               <div className="field">
                 <User className="icon" aria-hidden="true" />
                 <input
-                  ref={emailRef}
                   className="input"
                   type="email"
-                  defaultValue=""
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Username or email"
                   autoComplete="email"
                   required
@@ -185,10 +181,10 @@ export default function AuthForm() {
               <div className="field">
                 <Lock className="icon" aria-hidden="true" />
                 <input
-                  ref={passwordRef}
                   className="input"
                   type={showPassword ? 'text' : 'password'}
-                  defaultValue=""
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   autoComplete={isLogin ? 'current-password' : 'new-password'}
                   required

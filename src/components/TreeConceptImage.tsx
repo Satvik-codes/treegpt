@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TreeConceptImage() {
+function TreeConceptImage() {
   return (
     <div className="relative w-full max-w-[600px] aspect-square mx-auto flex items-center justify-center">
       <img
@@ -60,3 +60,5 @@ export default function TreeConceptImage() {
     </div>
   );
 }
+
+export default React.memo(TreeConceptImage);
