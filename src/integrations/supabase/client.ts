@@ -3,6 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 function readEnv(key: string): string | undefined {
+  // Explicit static checks for Vite string replacement
+  if (key === 'VITE_SUPABASE_URL') return import.meta.env.VITE_SUPABASE_URL;
+  if (key === 'VITE_SUPABASE_ANON_KEY') return import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (key === 'VITE_SUPABASE_PUBLISHABLE_KEY') return import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
   // Prefer Vite client-injected env (import.meta.env) when it's real.
   // In some TanStack Start + adapter setups, import.meta.env can be stripped, so we also check a global.
   try {
