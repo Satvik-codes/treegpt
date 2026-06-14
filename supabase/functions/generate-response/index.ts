@@ -1,4 +1,4 @@
- import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 // Supabase Edge Functions run on Deno. This declaration is only for local TypeScript tooling.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,8 +30,8 @@ serve(async (req: Request) => {
     // Cheap + fast default on OpenRouter.
     // You can swap this without changing frontend code.
     const MODEL = provider === "openrouter"
-      ? (Deno.env.get("OPENROUTER_MODEL") || "google/gemini-2.0-flash-001")
-      : (Deno.env.get("LOVABLE_MODEL") || "google/gemini-3-flash-preview");
+      ? (Deno.env.get("OPENROUTER_MODEL") || "poolside/laguna-xs.2:free")
+      : (Deno.env.get("LOVABLE_MODEL") || "poolside/laguna-xs.2:free");
 
     async function callChatCompletions(payload: Record<string, unknown>) {
       if (provider === "openrouter") {
@@ -70,7 +70,19 @@ serve(async (req: Request) => {
           { role: "user", content: chatContent },
         ],
       });
-      if (!response.ok) throw new Error(`AI error: ${response.status}`);
+      if (!response.ok) {
+        if (response.status === 429) {
+          return new Response(JSON.stringify({ error: "Rate limited. Try again shortly." }), {
+            status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        if (response.status === 402) {
+          return new Response(JSON.stringify({ error: "AI credits exhausted." }), {
+            status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        throw new Error(`AI error: ${response.status}`);
+      }
       const data = await response.json();
       const summary = data.choices?.[0]?.message?.content?.trim() || "Collapsed node";
       return new Response(JSON.stringify({ summary }), {
