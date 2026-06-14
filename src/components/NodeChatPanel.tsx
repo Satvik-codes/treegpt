@@ -13,6 +13,25 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { Database } from '@/integrations/supabase/types';
 
+async function invokeWithRetry(functionName: string, options: any, maxRetries = 1, delayMs = 2500) {
+  let result: any;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    result = await supabase.functions.invoke(functionName, options);
+    const isRateLimited = result.error?.status === 429 || 
+                          result.error?.message?.includes('429') || 
+                          result.error?.message?.includes('Rate limited') ||
+                          (result.data && result.data.error && String(result.data.error).includes('Rate limited'));
+                          
+    if (isRateLimited && attempt < maxRetries) {
+      console.warn(`Rate limited on ${functionName}. Retrying in ${delayMs}ms... (Attempt ${attempt + 1}/${maxRetries})`);
+      await new Promise(r => setTimeout(r, delayMs));
+      continue;
+    }
+    break;
+  }
+  return result;
+}
+
 type NodeStatus = Database['public']['Enums']['node_status'];
 type NodeRow = Database['public']['Tables']['nodes']['Row'];
 
@@ -122,12 +141,18 @@ export default function NodeChatPanel() {
     if (!selectedNode) return [];
     const parentSummaries: string[] = [];
     let current = selectedNode;
-    while (current.parent_id) {
+    let depth = 0;
+    while (current.parent_id && depth < 4) {
       const parent = nodes.find((n) => n.id === current.parent_id);
       if (!parent) break;
-      const pSummary = parent.summary || getNodeMessages(parent).map(m => `${m.role}: ${m.content}`).join('\n');
+      let pSummary = parent.summary;
+      if (!pSummary) {
+        const rawText = getNodeMessages(parent).map(m => `${m.role}: ${m.content}`).join('\n');
+        pSummary = rawText.length > 800 ? rawText.slice(0, 800) + '\n... (truncated)' : rawText;
+      }
       parentSummaries.unshift(pSummary);
       current = parent;
+      depth++;
     }
     const contextMessages: ChatMessage[] = [];
     if (parentSummaries.length > 0) {
@@ -142,8 +167,13 @@ export default function NodeChatPanel() {
   // Generate a smart title for the conversation from the first user message
   async function generateConversationTitle(firstMessage: string) {
     if (!currentConversationId) return;
+    
+    // Add a 3-second delay to allow rate-limits to cool off, 
+    // since this is often called right after a chat response is fired.
+    await new Promise(r => setTimeout(r, 3000));
+    
     try {
-      const { data, error } = await supabase.functions.invoke('generate-response', {
+      const { data, error } = await invokeWithRetry('generate-response', {
         body: {
           mode: 'summarize',
           messages: [{ role: 'user', content: firstMessage }],
@@ -210,7 +240,7 @@ export default function NodeChatPanel() {
       // Use the updated messages
       const contextMsgs = allMessages.slice(0, allMessages.length - msgs.length).concat(msgs);
       
-      const { data, error } = await supabase.functions.invoke('generate-response', {
+      const { data, error } = await invokeWithRetry('generate-response', {
         body: {
           mode: 'chat',
           // Ask the function to return structured content without markdown bullets.
@@ -255,7 +285,7 @@ export default function NodeChatPanel() {
       const contextWithoutCurrent = baseContext.slice(0, baseContext.length - messages.length);
       const contextMsgs = [...contextWithoutCurrent, ...currentMessages];
 
-      const { data, error } = await supabase.functions.invoke('generate-response', {
+      const { data, error } = await invokeWithRetry('generate-response', {
         body: { mode: 'branch', messages: contextMsgs, branchCount: count },
       });
       if (error) throw error;
@@ -300,9 +330,16 @@ export default function NodeChatPanel() {
 
   async function handleCollapse() {
     if (!selectedNodeId || !selectedNode) return;
+    
+    if (selectedNode.summary && selectedNode.summary !== 'Collapsed node') {
+      updateNode(selectedNodeId, { is_expanded: false });
+      await supabase.from('nodes').update({ is_expanded: false }).eq('id', selectedNodeId);
+      return;
+    }
+    
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-response', {
+      const { data, error } = await invokeWithRetry('generate-response', {
         body: {
           mode: 'summarize',
           messages,
